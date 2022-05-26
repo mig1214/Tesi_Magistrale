@@ -1,0 +1,38 @@
+--- bpf_preload_kern_e75b513ec6e545ce54c2f50e99fbd77e38911630.c	2021-03-19 22:14:44.000000000 +0100
++++ bpf_preload_kern.c	2021-03-19 22:23:19.000000000 +0100
+@@ -60,9 +60,12 @@
+ 			 &magic, sizeof(magic), &pos);
+ 	if (n != sizeof(magic))
+ 		return -EPIPE;
++
+ 	tgid = umd_ops.info.tgid;
+-	wait_event(tgid->wait_pidfd, thread_group_exited(tgid));
+-	umd_ops.info.tgid = NULL;
++	if (tgid) {
++		wait_event(tgid->wait_pidfd, thread_group_exited(tgid));
++		umd_cleanup_helper(&umd_ops.info);
++	}
+ 	return 0;
+ }
+ 
+@@ -80,10 +83,18 @@
+ 
+ static void __exit fini_umd(void)
+ {
++	struct pid *tgid;
++
+ 	bpf_preload_ops = NULL;
++
+ 	/* kill UMD in case it's still there due to earlier error */
+-	kill_pid(umd_ops.info.tgid, SIGKILL, 1);
+-	umd_ops.info.tgid = NULL;
++	tgid = umd_ops.info.tgid;
++	if (tgid) {
++		kill_pid(tgid, SIGKILL, 1);
++
++		wait_event(tgid->wait_pidfd, thread_group_exited(tgid));
++		umd_cleanup_helper(&umd_ops.info);
++	}
+ 	umd_unload_blob(&umd_ops.info);
+ }
+ late_initcall(load_umd);
