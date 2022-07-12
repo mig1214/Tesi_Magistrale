@@ -2,6 +2,10 @@ import requests
 import wget
 import os
 import tarfile
+import shutil
+import difflib
+import sys
+from diff_match_patch import diff_match_patch
 from bs4 import BeautifulSoup
 
 # Esploro le prime 50 pagine delle vulnerabilità Linux 2021 del sito https://www.cvedetails.com/
@@ -70,9 +74,9 @@ for element in dlinks:
         link_child = "https://git.kernel.org" + element["href"]
 
 folder_index = 1
-folder_name = "Cartella " + str(folder_index)
-os_path = "C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/patches/"
-dir = os.path.join("C://", "Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/patches", folder_name)
+folder_name = "Vulnerabilita " + str(folder_index)
+os_path = "C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/"
+dir = os.path.join(os_path, folder_name)
 link_parent = part1_parent_url+part2_parent_url+".tar.gz"
 
 if not os.path.exists(dir):
@@ -89,14 +93,64 @@ folder_index += 1
 # Estraggo i file
 file_child = tarfile.open(os_path+folder_name+"/"+child_name)
 file_parent = tarfile.open(os_path+folder_name+"/"+parent_name)
+child_lines_txt = []
+parent_lines_txt = []
+index = 1
 
 for path in extrac_paths:
+    # Creo una cartella per le singole vulnerabilità e patch
+    name_patch = "Patch "+str(index)
+    name_file_extract = path.split('/')[-1]
+    dir2 = os.path.join(os_path+folder_name+"/", name_patch)
+    if not os.path.exists(dir2):
+        os.mkdir(dir2)
     try:
-        file_child.extract(child_name.removesuffix(".tar.gz")+path, os_path+folder_name)
-        file_parent.extract(parent_name.removesuffix(".tar.gz")+path, os_path+folder_name)
+        # Estraggo i file child e parent necessari
+        file_child.extract(child_name.removesuffix(".tar.gz") + path, os_path+folder_name)
+        file_parent.extract(parent_name.removesuffix(".tar.gz") + path, os_path+folder_name)
+
+        # memorizzo il percorso dei file estratti
+        file_extract_c = os.path.join(os_path + folder_name + "/" + name_patch, "c_" + name_file_extract)
+        file_extract_p = os.path.join(os_path + folder_name + "/" + name_patch, "p_" + name_file_extract)
+
+        # Creo file dove copiare i file child e parent
+        file_c = open(file_extract_c, "w")
+        file_p = open(file_extract_p, "w")
+
+        # Copio file figlio
+        src_c = os_path+folder_name + "/" + child_name.removesuffix(".tar.gz") + path
+        dst_c = file_extract_c
+
+        shutil.copyfile(src_c, dst_c)
+
+        # Copio file padre
+        src = os_path + folder_name + "/" + parent_name.removesuffix(".tar.gz") + path
+        dst = file_extract_p
+
+        shutil.copyfile(src, dst)
+
+        # Comparo i file child e parent
+        patchfile = os.path.join(os_path + folder_name + "/" + name_patch, "patchfile.patch")
+        file_patch = open(patchfile, "w")
+        with open(src_c) as sc:
+            c_text = sc.readlines()
+        with open(src) as sp:
+            p_text = sp.readlines()
+        #print(*c_text, sep="\n")
+        for line in difflib.unified_diff(p_text, c_text, fromfile=src, tofile=src_c, lineterm="\n"):
+            print(line)
+            file_patch.write(line)
+        file_patch.close()
+        #delta = difflib.unified_diff(c_text, p_text, fromfile=src_c, tofile=src)
+        #ys.stdout.writelines(delta)
+        #file_patch.write(diff)
+        #file_patch.close()
+
+        index += 1
     except:
         print("Error, file doesn't exist")
-
+        if os.path.exists(dir2):
+            os.rmdir(dir2)
 
 file_child.close()
 file_parent.close()
