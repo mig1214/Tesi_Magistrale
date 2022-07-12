@@ -128,6 +128,8 @@ for path in extrac_paths:
         dst = file_extract_p
 
         shutil.copyfile(src, dst)
+        file_c.close()
+        file_p.close()
 
         # Comparo i file child e parent
         patchfile = os.path.join(os_path + folder_name + "/" + name_patch, "patchfile.patch")
