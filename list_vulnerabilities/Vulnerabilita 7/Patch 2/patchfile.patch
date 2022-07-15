@@ -1,0 +1,20 @@
+--- C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 7/linux-6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f/security/smack/smack_lsm.c
++++ C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 7/linux-a3727a8bac0a9e77c70820655fd8715523ba3db7/security/smack/smack_lsm.c
+@@ -2016,7 +2016,7 @@
+ 				const char *caller)
+ {
+ 	struct smk_audit_info ad;
+-	struct smack_known *skp = smk_of_task_struct_subj(p);
++	struct smack_known *skp = smk_of_task_struct_obj(p);
+ 	int rc;
+ 
+ 	smk_ad_init(&ad, caller, LSM_AUDIT_DATA_TASK);
+@@ -3480,7 +3480,7 @@
+  */
+ static int smack_getprocattr(struct task_struct *p, char *name, char **value)
+ {
+-	struct smack_known *skp = smk_of_task_struct_subj(p);
++	struct smack_known *skp = smk_of_task_struct_obj(p);
+ 	char *cp;
+ 	int slen;
+ 

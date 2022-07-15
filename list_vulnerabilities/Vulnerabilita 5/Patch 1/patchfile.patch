@@ -1,0 +1,26 @@
+--- C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 5/net-f8885ac89ce310570e5391fe0bf0ec9c7c9b4fdc/drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils.c
++++ C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 5/net-b922f622592af76b57cbc566eaeccda0b31a3496/drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils.c
+@@ -559,6 +559,11 @@
+ 			goto err_exit;
+ 
+ 		if (fw.len == 0xFFFFU) {
++			if (sw.len > sizeof(self->rpc)) {
++				printk(KERN_INFO "Invalid sw len: %x\n", sw.len);
++				err = -EINVAL;
++				goto err_exit;
++			}
+ 			err = hw_atl_utils_fw_rpc_call(self, sw.len);
+ 			if (err < 0)
+ 				goto err_exit;
+@@ -567,6 +572,11 @@
+ 
+ 	if (rpc) {
+ 		if (fw.len) {
++			if (fw.len > sizeof(self->rpc)) {
++				printk(KERN_INFO "Invalid fw len: %x\n", fw.len);
++				err = -EINVAL;
++				goto err_exit;
++			}
+ 			err =
+ 			hw_atl_utils_fw_downld_dwords(self,
+ 						      self->rpc_addr,

@@ -1,0 +1,25 @@
+--- C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 19/linux-67eb211487f0c993d9f402d1c196ef159fd6a3b5/net/netlabel/netlabel_cipso_v4.c
++++ C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 19/linux-ad5d07f4a9cd671233ae20983848874731102c08/net/netlabel/netlabel_cipso_v4.c
+@@ -575,6 +575,7 @@
+ 
+ 		break;
+ 	}
++	cipso_v4_doi_putdef(doi_def);
+ 	rcu_read_unlock();
+ 
+ 	genlmsg_end(ans_skb, data);
+@@ -583,12 +584,14 @@
+ list_retry:
+ 	/* XXX - this limit is a guesstimate */
+ 	if (nlsze_mult < 4) {
++		cipso_v4_doi_putdef(doi_def);
+ 		rcu_read_unlock();
+ 		kfree_skb(ans_skb);
+ 		nlsze_mult *= 2;
+ 		goto list_start;
+ 	}
+ list_failure_lock:
++	cipso_v4_doi_putdef(doi_def);
+ 	rcu_read_unlock();
+ list_failure:
+ 	kfree_skb(ans_skb);

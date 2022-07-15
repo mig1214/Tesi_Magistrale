@@ -1,0 +1,30 @@
+--- C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 21/linux-57ac51667d8cd62731223d687e5fe7b41c502f89/arch/arm/mach-footbridge/Kconfig
++++ C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 21/linux-298a58e165e447ccfaae35fe9f651f9d7e15166f/arch/arm/mach-footbridge/Kconfig
+@@ -15,27 +15,6 @@
+ 	  Say Y here if you intend to run this kernel on the CATS.
+ 
+ 	  Saying N will reduce the size of the Footbridge kernel.
+-
+-config ARCH_PERSONAL_SERVER
+-	bool "Compaq Personal Server"
+-	select FOOTBRIDGE_HOST
+-	select ISA
+-	select ISA_DMA
+-	select FORCE_PCI
+-	help
+-	  Say Y here if you intend to run this kernel on the Compaq
+-	  Personal Server.
+-
+-	  Saying N will reduce the size of the Footbridge kernel.
+-
+-	  The Compaq Personal Server is not available for purchase.
+-	  There are no product plans beyond the current research
+-	  prototypes at this time.  Information is available at:
+-
+-	  <http://www.crl.hpl.hp.com/projects/personalserver/>
+-
+-	  If you have any questions or comments about the  Compaq Personal
+-	  Server, send e-mail to <skiff@crl.dec.com>.
+ 
+ config ARCH_EBSA285_ADDIN
+ 	bool "EBSA285 (addin mode)"

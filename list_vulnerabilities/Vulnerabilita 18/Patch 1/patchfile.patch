@@ -1,0 +1,10 @@
+--- C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 18/linux-3a9d54b1947ecea8eea9a902c0b7eb58a98add8a/include/net/bluetooth/hci_core.h
++++ C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 18/linux-5c4c8c9544099bb9043a10a5318130a943e32fc3/include/net/bluetooth/hci_core.h
+@@ -704,6 +704,7 @@
+ 	struct sk_buff_head data_q;
+ 	unsigned int	sent;
+ 	__u8		state;
++	bool		amp;
+ };
+ 
+ struct hci_conn_params {

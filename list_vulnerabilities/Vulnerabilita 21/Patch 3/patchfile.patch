@@ -1,0 +1,15 @@
+--- C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 21/linux-57ac51667d8cd62731223d687e5fe7b41c502f89/arch/arm/mach-footbridge/Makefile
++++ C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/Vulnerabilita 21/linux-298a58e165e447ccfaae35fe9f651f9d7e15166f/arch/arm/mach-footbridge/Makefile
+@@ -11,12 +11,10 @@
+ pci-$(CONFIG_ARCH_CATS) += cats-pci.o
+ pci-$(CONFIG_ARCH_EBSA285_HOST) += ebsa285-pci.o
+ pci-$(CONFIG_ARCH_NETWINDER) += netwinder-pci.o
+-pci-$(CONFIG_ARCH_PERSONAL_SERVER) += personal-pci.o
+ 
+ obj-$(CONFIG_ARCH_CATS) += cats-hw.o isa-timer.o
+ obj-$(CONFIG_ARCH_EBSA285) += ebsa285.o dc21285-timer.o
+ obj-$(CONFIG_ARCH_NETWINDER) += netwinder-hw.o isa-timer.o
+-obj-$(CONFIG_ARCH_PERSONAL_SERVER) += personal.o dc21285-timer.o
+ 
+ obj-$(CONFIG_PCI)	+=$(pci-y)
+ 
