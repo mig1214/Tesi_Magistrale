@@ -94,7 +94,7 @@ for text in url:
             link_child = "https://git.kernel.org" + element["href"]
 
     folder_name = "Vulnerabilita " + str(folder_index)
-    os_path = "C:/Users/migue/Desktop/Universita/Magistrale/2_anno/Tesi/Tesi_Magistrale/list_vulnerabilities/"
+    os_path = "./list_vulnerabilities/"
     dir = os.path.join(os_path, folder_name)
     link_parent = part1_parent_url+part2_parent_url+".tar.gz"
     child_name = ""
