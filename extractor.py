@@ -4,14 +4,12 @@ import os
 import tarfile
 import shutil
 import difflib
-import sys
-from diff_match_patch import diff_match_patch
 from bs4 import BeautifulSoup
 
 # Esploro le prime 50 pagine delle vulnerabilità Linux 2021 del sito https://www.cvedetails.com/
 # e catturo i link per la patch del sito https://git.kernel.org/
 
-URL = "https://www.cvedetails.com/vulnerability-list/vendor_id-33/product_id-47/year-2021/Linux-Linux-Kernel.html"
+URL = "https://www.cvedetails.com/vulnerability-list.php?vendor_id=33&product_id=47&version_id=&page=2&hasexp=0&opdos=0&opec=0&opov=0&opcsrf=0&opgpriv=0&opsqli=0&opxss=0&opdirt=0&opmemc=0&ophttprs=0&opbyp=0&opfileinc=0&opginf=0&cvssscoremin=0&cvssscoremax=0&year=2021&month=0&cweid=0&order=1&trc=161&sha=28a2f51a672c94e4f5764cd0848d032c1497207f"
 page = requests.get(URL)
 
 soup = BeautifulSoup(page.content, "html.parser")
@@ -20,7 +18,7 @@ results = soup.find(id="vulnslisttable")
 url = soup.find_all("td", nowrap=True)
 link = ""
 git_url = ""
-folder_index = 1
+folder_index = 22
 for text in url:
     title = text.getText()
     link = "https://www.cvedetails.com/cve/"+title
