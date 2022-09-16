@@ -1,4 +1,19 @@
 import os
+from natsort import os_sorted
+
+
+def delete_same_functions(path: str):
+    functions_list = os_sorted(os.listdir(path))
+    i = 0
+    while i + 1 < len(functions_list):
+        with open(path + "/" + functions_list[i]) as e1:
+            e1_lines = e1.readlines()
+        with open(path + "/"+functions_list[i+1]) as e2:
+            e2_lines = e2.readlines()
+        if e1_lines == e2_lines:
+            del_path = path + "/"+functions_list[i]
+            os.remove(path + "/"+functions_list[i])
+        i += 1
 
 
 def find_indexs(index: int, codelist: list):
@@ -110,3 +125,10 @@ while os.path.exists(path_vulnerabilities):
                     func_index_c += 1
         index_patches += 1
     vul_index += 1
+# Elimino quelle funzioni uguali
+path_functions_p = os.path.join("./functions/", "functions_p")
+path_functions_c = os.path.join("./functions/", "functions_c")
+delete_same_functions(path_functions_c)
+delete_same_functions(path_functions_p)
+
+
