@@ -1,6 +1,5 @@
 import os
 
-
 # Cerco le cartelle Vulnerabilita XX
 index_vulnerabilities = 1
 path_vulnerabilities = os.path.join("./list_vulnerabilities/", "Vulnerabilita " + str(index_vulnerabilities))
