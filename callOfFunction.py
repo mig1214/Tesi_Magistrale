@@ -1,6 +1,8 @@
 import os
 from natsort import os_sorted
 
+# -------------------------- Call of Functions ------------------------------
+
 
 def delete_same_functions(path: str):
     functions_list = os_sorted(os.listdir(path))
@@ -13,6 +15,9 @@ def delete_same_functions(path: str):
         if e1_lines == e2_lines:
             del_path = path + "/"+functions_list[i]
             os.remove(path + "/"+functions_list[i])
+        else:
+            for element in e2_lines:
+                all_function.write(element)
         i += 1
 
 
@@ -42,7 +47,8 @@ def find_indexs(index: int, codelist: list):
 func_index_p = 1
 func_index_c = 1
 # Indice della cartella Vulnerabilita X
-vul_index = 1
+vul_index = 11
+all_function = open("./functions/all_functions.txt", "w")
 # Cerco le cartelle Vulnerabilità X
 path_vulnerabilities = os.path.join("./list_vulnerabilities/", "Vulnerabilita " + str(vul_index))
 while os.path.exists(path_vulnerabilities):
@@ -131,4 +137,5 @@ path_functions_c = os.path.join("./functions/", "functions_c")
 delete_same_functions(path_functions_c)
 delete_same_functions(path_functions_p)
 
+all_function.close()
 

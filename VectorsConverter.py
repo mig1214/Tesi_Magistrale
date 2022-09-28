@@ -1,6 +1,9 @@
 import os
 
-def convert_to_vector(list_lines :list, vulnerable: int ):
+
+# --------------------------- VectorsConverter----------------------
+
+def convert_to_vector(list_lines: list, vulnerable: int ):
     n_if = 0
     n_for = 0
     n_while = 0
@@ -8,15 +11,15 @@ def convert_to_vector(list_lines :list, vulnerable: int ):
     exist_unsigned = 0
     exist_char = 0
     call_size_of = 0
-    call_mutex_lock = 0
-    call_unlikely = 0
-    call_spin_lock = 0
-    call_spin_unlock = 0
-    call_printk = 0
-    call_lock_sock = 0
-    call_memcpy = 0
-    call_memset = 0
-    call_list_del_rcu = 0
+    call_verbose = 0
+    call_is_bad_offset = 0
+    call_b_imm = 0
+    call_emit_reg_move = 0
+    call_emit_b = 0
+    call_emit_nop = 0
+    call_emit_bcond = 0
+    call_pr_debug = 0
+    call_rcu_read_unlock = 0
 
     for element in list_lines:
         el = element
@@ -34,31 +37,29 @@ def convert_to_vector(list_lines :list, vulnerable: int ):
             exist_char = 1
         if "sizeof(" in element:
             call_size_of = 1
-        if "mutex_lock(" in element:
-            call_mutex_lock = 1
-        if "unlikely(" in element:
-            call_unlikely = 1
-        if "spin_lock(" in element:
-            call_spin_lock = 1
-        if "spin_unlock(" in element:
-            call_spin_unlock = 1
-        if "printk(" in element:
-            call_printk = 1
-        if "lock_sock(" in element:
-            call_lock_sock = 1
-        if "memcpy(" in element:
-            call_memcpy = 1
-        if "memset(" in element:
-            call_memset = 1
-        if "list_del_rcu(" in element:
-            call_list_del_rcu = 1
+        if "verbose(" in element:
+            call_verbose = 1
+        if "is_bad_offset(" in element:
+            call_is_bad_offset = 1
+        if "b_imm(" in element:
+            call_b_imm = 1
+        if "pr_debug(" in element:
+            call_pr_debug = 1
+        if "emit_bcond(" in element:
+            call_emit_bcond = 1
+        if "emit_reg_move(" in element:
+            call_emit_reg_move = 1
+        if "emit_b(" in element:
+            call_emit_b = 1
+        if "emit_nop(" in element:
+            call_emit_nop = 1
+        if "rcu_read_unlock(" in element:
+            call_rcu_read_unlock = 1
 
-    vector = [n_if, n_for, n_while, exist_int, exist_unsigned, exist_char, call_size_of, call_mutex_lock, call_unlikely,
-              call_spin_lock, call_spin_unlock, call_printk, call_lock_sock, call_memcpy, call_memset,
-              call_list_del_rcu,
-              vulnerable]
+    vector = [n_if, n_for, n_while, exist_int, exist_unsigned, exist_char, call_size_of, call_verbose, call_is_bad_offset,
+              call_b_imm, call_pr_debug, call_emit_bcond, call_emit_reg_move, call_emit_b,
+              call_emit_nop, call_rcu_read_unlock, vulnerable]
     return vector
-
 
 
 # Creo il nuovo file dove salvare tutti i vettori del file CON patch
@@ -72,8 +73,8 @@ vector_path_p = os.path.join("./vectors/p_vectors/", file_name_p)
 vector_file_p = open(vector_path_p, "w")
 
 # Cerco i file delle funzioni
-path_functions_p = os.path.join("./functions/", "functions_p/")
-path_functions_c = os.path.join("./functions/", "functions_c/")
+path_functions_p = os.path.join("./old_functions/union_functions/", "union_functions_p/")
+path_functions_c = os.path.join("./old_functions/union_functions/", "union_functions_c/")
 
 functions_p = os.listdir(path_functions_p)
 functions_c = os.listdir(path_functions_c)

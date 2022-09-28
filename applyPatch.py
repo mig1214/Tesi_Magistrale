@@ -1,7 +1,10 @@
 import os
 
+
+# ------------------------ ApplyPatch ------------------------
+
 # Cerco le cartelle Vulnerabilita XX
-index_vulnerabilities = 22
+index_vulnerabilities = 1
 path_vulnerabilities = os.path.join("./list_vulnerabilities/", "Vulnerabilita " + str(index_vulnerabilities))
 while os.path.exists(path_vulnerabilities):
     # Cerco le carelle Patch XX
