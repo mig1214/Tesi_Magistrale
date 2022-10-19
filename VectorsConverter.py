@@ -73,8 +73,8 @@ vector_path_p = os.path.join("./vectors/p_vectors/", file_name_p)
 vector_file_p = open(vector_path_p, "w")
 
 # Cerco i file delle funzioni
-path_functions_p = os.path.join("./old_functions/union_functions/", "union_functions_p/")
-path_functions_c = os.path.join("./old_functions/union_functions/", "union_functions_c/")
+path_functions_p = os.path.join("./functions/", "functions_p/")
+path_functions_c = os.path.join("./functions/", "functions_c/")
 
 functions_p = os.listdir(path_functions_p)
 functions_c = os.listdir(path_functions_c)
